@@ -1,18 +1,17 @@
 package com.capgemini.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Airport {
     private String name;
-    private Airplane[] airplanes;
+    private ArrayList<Airplane> airplanes = new ArrayList<>();
 
-    public Airport(String airportName, Airplane airplane1, Airplane airplane2, Airplane airplane3) {
+    public Airport(String airportName) {
         this.name = airportName;
-        this.airplanes = new Airplane[3];
-        this.airplanes[0] = airplane1;
-        this.airplanes[1] = airplane2;
-        this.airplanes[2] = airplane3;
     }
 
-    public Airplane[] getAirplanes() {
+    public ArrayList<Airplane> getAirplanes() {
         return this.airplanes;
     }
 
@@ -24,24 +23,63 @@ public class Airport {
         this.name = name;
     }
 
-    public void setAirplanes(Airplane[] airplanes) {
+    public void setAirplanes(ArrayList<Airplane> airplanes) {
         this.airplanes = airplanes;
     }
 
     public void printAirplanes() {
-        System.out.println("Airplanes from airport " + this.name + ":");
+        System.out.println("Passenger planes from airport " + this.name + ":");
         for (Airplane i : this.airplanes) {
-            System.out.println("Airplane " + i.getPlaneIdentification());
-
+            if (i instanceof PeoplePlane) {
+                System.out.println(i.toString());
+            }
+        }
+        System.out.println("\nCargo planes from airport " + this.name + ":");
+        for (Airplane i : this.airplanes) {
+            if (i instanceof CargoPlane) {
+                System.out.println(i.toString());
+            }
         }
     }
 
-    public void requestAirplane() {
+    public void requestPeoplePlanes() {
+        System.out.println("Passenger planes from airport " + this.name + ":");
+        for (Airplane i : this.airplanes) {
+            if (i instanceof PeoplePlane) {
+                System.out.println(i.toString());
+            }
+        }
+    }
+
+    public void requestCargoPlanes() {
+        System.out.println("\nCargo planes from airport " + this.name + ":");
+        for (Airplane i : this.airplanes) {
+            if (i instanceof CargoPlane) {
+                System.out.println(i.toString());
+            }
+        }
+    }
+
+    public void requestPeoplePlane() {
         for (Airplane i: this.airplanes) {
-            if (!i.isCurrentlyFlying() && i.roomForPassengers() > 0) {
-                System.out.println("Airplane " + i.getPlaneIdentification() + " is requested. Is not flying, and has room for " +
-                        i.roomForPassengers() + " passengers.");
-                break;
+            if (i instanceof PeoplePlane) {
+                if (!i.isCurrentlyFlying() && ((PeoplePlane)i).roomForPassengers() > 0) {
+                    System.out.println("Airplane " + i.getPlaneIdentification() + " is requested. Is not flying, and has room for " +
+                            ((PeoplePlane)i).roomForPassengers() + " passengers.");
+                    break;
+                }
+            }
+        }
+    }
+
+    public void requestCargoPlane() {
+        for (Airplane i: this.airplanes) {
+            if (i instanceof CargoPlane) {
+                if (!i.isCurrentlyFlying() && ((CargoPlane)i).roomForCargo() > 0) {
+                    System.out.println("Airplane " + i.getPlaneIdentification() + " is requested. Is not flying, and has room for " +
+                            ((CargoPlane)i).roomForCargo() + " tons of freight.");
+                    break;
+                }
             }
         }
     }

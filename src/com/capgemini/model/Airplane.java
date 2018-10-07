@@ -4,62 +4,20 @@ public class Airplane {
     private String planeIdentification;
     private boolean isCurrentlyFlying;
     private double cruiseSpeed;
-    private int maxNumberOfPassengers;
-    private int currentNumberOfPassengers;
 
-    public Airplane(String planeIdentification, int maxNumberOfPassengers) {
+    public Airplane(String planeIdentification) {
         this.planeIdentification = planeIdentification;
-        this.maxNumberOfPassengers = maxNumberOfPassengers;
     }
 
-    public void loadPassengers (int numberOfPassengers) {
-        if (this.currentNumberOfPassengers + numberOfPassengers <= this.maxNumberOfPassengers) {
-            this.currentNumberOfPassengers += numberOfPassengers;
-            System.out.println("Airplane " + this.getPlaneIdentification() + " loads " + numberOfPassengers + " passengers. " +
-                    "There are now " + this.currentNumberOfPassengers + " passengers on board.");
+    public String toString() {
+        String planeString = "";
+        if (this instanceof PeoplePlane) {
+            planeString = "Passenger plane " + this.getPlaneIdentification();
         }
-        else {
-            int numberOfPassengersLoaded = this.maxNumberOfPassengers - this.currentNumberOfPassengers;
-            int numberOfPassengersNotLoaded = numberOfPassengers - numberOfPassengersLoaded;
-            this.currentNumberOfPassengers += numberOfPassengersLoaded;
-            System.out.println("Airplane " + this.getPlaneIdentification() + " loads " + numberOfPassengersLoaded + " passengers, " +
-                    numberOfPassengersNotLoaded + " do not fit. There are now " + this.currentNumberOfPassengers + " passengers on board.");
+        else if (this instanceof CargoPlane) {
+            planeString = "Cargo plane " + this.getPlaneIdentification();
         }
-    }
-
-    public void unloadPassengers (int numberOfPassengers) {
-        if (numberOfPassengers <= this.currentNumberOfPassengers) {
-            this.currentNumberOfPassengers = this.currentNumberOfPassengers - numberOfPassengers;
-            System.out.println("Airplane " + this.getPlaneIdentification() + " unloads " + numberOfPassengers + " passengers." +
-                    " There are now " + this.currentNumberOfPassengers + " passengers on board.");
-        }
-        else {
-            int numberOfPassengersUnloaded = this.currentNumberOfPassengers;
-            int numberOfPassengersNotUnloaded = numberOfPassengers - this.currentNumberOfPassengers;
-            this.currentNumberOfPassengers -= numberOfPassengersUnloaded;
-            System.out.println("The number of passengers cannot be negative. Airplane " + this.getPlaneIdentification() + " unloads " +
-                    numberOfPassengersUnloaded + " passengers and there are now " + this.currentNumberOfPassengers + " passengers on board.");
-        }
-    }
-
-    public int roomForPassengers() {
-        return (this.maxNumberOfPassengers-this.currentNumberOfPassengers);
-    }
-
-    public int getMaxNumberOfPassengers() {
-        return maxNumberOfPassengers;
-    }
-
-    public void setMaxNumberOfPassengers(int maxNumberOfPassengers) {
-        this.maxNumberOfPassengers = maxNumberOfPassengers;
-    }
-
-    public int getCurrentNumberOfPassengers() {
-        return currentNumberOfPassengers;
-    }
-
-    public void setCurrentNumberOfPassengers(int currentNumberOfPassengers) {
-        this.currentNumberOfPassengers = currentNumberOfPassengers;
+        return planeString;
     }
 
     public void takeOff() {
